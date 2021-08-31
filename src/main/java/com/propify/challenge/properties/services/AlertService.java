@@ -1,4 +1,4 @@
-package com.propify.challenge;
+package com.propify.challenge.properties.services;
 
 public class AlertService {
 
