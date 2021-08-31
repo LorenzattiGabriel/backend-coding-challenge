@@ -40,6 +40,10 @@ public class Address implements Serializable {
     @Getter
     public String timezone; // Must be a valid timezone
 
+    @Id
+    public Long getId() {
+        return id;
+    }
 
     public static Builder builder() {
         return new Builder();
