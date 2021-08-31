@@ -1,39 +1,42 @@
-package com.propify.challenge.properties.model;
-
+package com.propify.challenge.properties.web.Dtos;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Address implements Serializable {
-
-    @Setter
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class AddressDto {
 
     @Setter
     @Getter
+    @NotNull
+    @NotBlank
     public String street; // must not be null or blank
 
     @Setter
     @Getter
+    @NotNull
+    @NotBlank
     public String city; // must not be null or blank
 
     @Setter
     @Getter
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 2, message
+            = "zip  must be 5 characters")
     public String state; // 2-letter code, must not be null or blank
 
     @Setter
     @Getter
+    @NotNull
+    @NotBlank
+    @Size(min = 5, max = 5, message
+            = "zip  must be 5 characters")
     public String zip; // 5-digit code, must not be null or blank
 
     @Setter
@@ -41,12 +44,4 @@ public class Address implements Serializable {
     public String timezone; // Must be a valid timezone
 
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
-    }
 }

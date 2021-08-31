@@ -2,7 +2,6 @@ package com.propify.challenge;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.propify.challenge.properties.repository.PropertyMapper;
 import com.propify.challenge.properties.model.Property;
 import com.propify.challenge.properties.model.Type;
 import org.junit.jupiter.api.Test;
@@ -22,28 +21,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
         DbUnitTestExecutionListener.class
 })
 public class PropertyMapperTest {
-
-    @Autowired
-    PropertyMapper propertyMapper;
-
-    @Test
-    public void testInsert() {
-        var property = new Property();
-        property.rentPrice = 3000.99;
-        property.type = Type.MULTI_FAMILY;
-
-        propertyMapper.insert(property);
-
-        // TODO: add assertions
-    }
-
-    @Test
-    public void testFindById() {
-        var property = propertyMapper.findById(1);
-
-        assert property != null;
-        // TODO: add assertions
-    }
 
     // TODO: Add more tests
 }

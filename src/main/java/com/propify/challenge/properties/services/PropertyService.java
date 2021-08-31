@@ -1,56 +1,63 @@
 package com.propify.challenge.properties.services;
 
-import com.propify.challenge.properties.repository.PropertyMapper;
 import com.propify.challenge.properties.model.Property;
 import com.propify.challenge.properties.model.PropertyReport;
-import com.propify.challenge.properties.repository.AddressMapper;
+import com.propify.challenge.properties.repository.AddressRepository;
+import com.propify.challenge.properties.repository.PropertyRepository;
+import com.propify.challenge.properties.web.Dtos.PropertyDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 
 @Service
-public class PropertyService {
+public class PropertyService implements PropertyOperations {
 
-    PropertyMapper propertyMapper;
-
-    AddressMapper addressMapper;
-
-    AlertService alertService;
+    AlertOperations alertService;
+    PropertyRepository propertyRepository;
+    AddressRepository addressRepository;
 
     @Autowired
-    public PropertyService() {
+    public PropertyService(AlertOperations alertService, PropertyRepository propertyRepository,
+                           AddressRepository addressRepository) {
+        this.alertService = alertService;
+        this.propertyRepository = propertyRepository;
+        this.addressRepository = addressRepository;
     }
 
-    public Collection<Property> search(String minRentPrice, String maxRentPrice) {
-        return propertyMapper.search(minRentPrice, maxRentPrice);
+
+    @Override
+    public List<Property> search(double minRentPrice, double maxRentPrice) {
+        return null;
     }
 
-    public Property findById(int id) {
-        return propertyMapper.findById(id);
+    @Override
+    public Property findById(Integer id) {
+        return null;
     }
 
-    public void insert(Property property) {
-        propertyMapper.insert(property);
-        System.out.println("CREATED: " + property.id);
+    @Override
+    public void save(PropertyDto propertyDto) {
+        System.out.println("CREATED: ");
     }
 
-    public void update(Property property) {
-        propertyMapper.update(property);
-        System.out.println("UPDATED: " + property.id);
+    @Override
+    public Property update(PropertyDto propertyDto) {
+        System.out.println("UPDATED: ");
+        return null;
     }
 
-    public void delete(int id) {
-        propertyMapper.delete(id);
+    @Override
+    public void delete(Integer id) {
+
         System.out.println("DELETED: " + id);
-
         alertService.sendPropertyDeletedAlert(id);
-        // TODO: Sending the alert should be non-blocking (asynchronous)
-        //  Extra points for only sending the alert when/if the transaction is committed
     }
 
-    public PropertyReport propertyReport() {
-        var allProperties = propertyMapper.search(null, null);
+    @Override
+    public PropertyReport generateReport() {
+
+        var allProperties = propertyRepository.findAll();
         var propertyReport = new PropertyReport();
 
         // Calculate total quantity

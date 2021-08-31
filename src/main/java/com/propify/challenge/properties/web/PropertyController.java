@@ -4,12 +4,16 @@ import com.propify.challenge.properties.model.Property;
 import com.propify.challenge.properties.model.PropertyReport;
 
 import com.propify.challenge.properties.services.PropertyOperations;
+import com.propify.challenge.properties.web.Dtos.PropertyDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/properties/")
@@ -23,35 +27,42 @@ public class PropertyController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public Collection<Property> search(String minRentPrice, String maxRentPrice) {
-        return service.search(minRentPrice, maxRentPrice);
+    public ResponseEntity<?> search(
+            @RequestParam @NotNull @Positive double minRentPrice,
+            @RequestParam @NotNull @Positive double maxRentPrice) {
+
+        final List<Property> properties = service.search(minRentPrice, maxRentPrice);
+        return new ResponseEntity<>(properties, HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public Property findById(int id) {
-        return propertyService.findById(id);
+    public ResponseEntity<?> findById(@PathVariable("id") @NotNull @Positive Integer id) {
+        final Property property = service.findById(id);
+        return new ResponseEntity<>(property, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void insert(Property property) {
-        // TODO: Property attributes must be validated
-        propertyService.insert(property);
+    public ResponseEntity<?> insert(@Valid @RequestBody PropertyDto propertyDto) {
+        service.save(propertyDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public void update(Property property) {
-        // TODO: Property attributes must be validated
-        propertyService.update(property);
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @Valid @RequestBody PropertyDto propertyDto) {
+        Property property = service.update(propertyDto);
+        return new ResponseEntity<>(property, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public void delete(int id) {
-        propertyService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable("id") @NotNull @Positive Integer id) {
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/report", method = RequestMethod.GET)
-    public PropertyReport report() {
-        return propertyService.propertyReport();
+    public ResponseEntity<?> report() {
+        PropertyReport propertyReport = service.generateReport();
+        return new ResponseEntity<>(propertyReport, HttpStatus.CREATED);
     }
 }

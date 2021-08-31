@@ -1,7 +1,5 @@
 package com.propify.challenge;
 
-import com.propify.challenge.properties.repository.PropertyMapper;
-import com.propify.challenge.properties.repository.AddressMapper;
 import com.propify.challenge.properties.services.AlertService;
 import com.propify.challenge.properties.services.PropertyService;
 import org.junit.jupiter.api.Test;
@@ -12,10 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class PropertyServiceTest {
 
     PropertyService propertyService;
-
-    PropertyMapper propertyMapper;
-
-    AddressMapper addressMapper;
 
     AlertService alertService;
 
