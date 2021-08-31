@@ -20,3 +20,12 @@ mvn flyway:migrate
 ```
 
 If you are not familiar with Flyway migrations, the database seed is `src/main/resources/db/migration/V1__baseline.sql`.
+
+
+Response  and Feedback: 
+
+I chose to transform the app into a spring boot api with all its annotations. using design patterns as a builder.
+
+I did not arrive in time to do tests and other operations. I could not implement the business expections that I wanted. A project of this nature requires more time.
+
+I focused on following good practices, using short interfaces and methods.
