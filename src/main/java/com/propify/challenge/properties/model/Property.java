@@ -40,4 +40,49 @@ public class Property implements Serializable {
     @Setter
     @Getter
     public String code; // not null, only uppercase letters or numbers, 10 characters
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Property property;
+
+        public Builder() {
+            this.property = new Property();
+        }
+
+        public Builder withAddress(Address address) {
+            property.setAddress(address);
+            return this;
+        }
+
+        public Builder withTime(String time) {
+            property.setCreateTime(time);
+            return this;
+        }
+
+        public Builder withType(Type type) {
+            property.setType(type);
+            return this;
+        }
+
+        public Builder withPrice(double price) {
+            property.setRentPrice(price);
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            property.setEmailAddress(email);
+            return this;
+        }
+
+        public Builder withCode(String code) {
+            property.setCode(code);
+            return this;
+        }
+        public Property build() {
+            return property;
+        }
+    }
 }

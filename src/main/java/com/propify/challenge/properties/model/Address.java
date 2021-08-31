@@ -18,7 +18,7 @@ public class Address implements Serializable {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    public Long id;
 
     @Setter
     @Getter
@@ -41,12 +41,43 @@ public class Address implements Serializable {
     public String timezone; // Must be a valid timezone
 
 
-    public void setId(Long id) {
-        this.id = id;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    @Id
-    public Long getId() {
-        return id;
+    public static class Builder {
+        private Address address;
+
+        public Builder() {
+            this.address = new Address();
+        }
+
+        public Builder withStreet(String street) {
+            address.setStreet(street);
+            return this;
+        }
+
+        public Builder withCity(String city) {
+            address.setCity(city);
+            return this;
+        }
+
+        public Builder withState(String state) {
+            address.setState(state);
+            return this;
+        }
+
+        public Builder withZip(String zip) {
+            address.setZip(zip);
+            return this;
+        }
+
+        public Builder withTimezone(String timezone) {
+            address.setTimezone(timezone);
+            return this;
+        }
+        public Address build() {
+            return address;
+        }
     }
 }

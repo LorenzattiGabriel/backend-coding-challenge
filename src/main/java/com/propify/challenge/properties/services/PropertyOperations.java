@@ -10,7 +10,7 @@ public interface PropertyOperations {
 
     List<Property> search(double minRentPrice, double maxRentPrice);
 
-    Property findById(Integer id);
+    Property findById(Integer id) throws Exception;
 
     void save(PropertyDto propertyDto);
 

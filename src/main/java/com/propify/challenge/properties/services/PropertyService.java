@@ -1,14 +1,18 @@
 package com.propify.challenge.properties.services;
 
+import com.propify.challenge.properties.model.Address;
 import com.propify.challenge.properties.model.Property;
 import com.propify.challenge.properties.model.PropertyReport;
 import com.propify.challenge.properties.repository.AddressRepository;
 import com.propify.challenge.properties.repository.PropertyRepository;
+import com.propify.challenge.properties.web.Dtos.AddressDto;
 import com.propify.challenge.properties.web.Dtos.PropertyDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PropertyService implements PropertyOperations {
@@ -32,12 +36,18 @@ public class PropertyService implements PropertyOperations {
     }
 
     @Override
-    public Property findById(Integer id) {
-        return null;
+    public Property findById(Integer id) throws Exception {
+        Long propertyID = (long) id;
+        Optional<Property> property = propertyRepository.findById(propertyID);
+
+        return property.orElseThrow(() -> new Exception("property not found"));
+
     }
 
     @Override
     public void save(PropertyDto propertyDto) {
+        Property property = generateNewProperty(propertyDto);
+        propertyRepository.save(property);
         System.out.println("CREATED: ");
     }
 
@@ -74,4 +84,29 @@ public class PropertyService implements PropertyOperations {
 
         return propertyReport;
     }
+
+
+    private Property generateNewProperty(PropertyDto propertyDto) {
+        Address address = buildAddress(propertyDto.getAddress());
+        String time = LocalDateTime.now().toString();
+        return Property.builder()
+                .withAddress(address)
+                .withTime(time)
+                .withType(propertyDto.getType())
+                .withPrice(propertyDto.getRentPrice())
+                .withEmail(propertyDto.getEmailAddress())
+                .withCode(propertyDto.getCode())
+                .build();
+    }
+
+    private Address buildAddress(AddressDto addressDto) {
+        return Address.builder()
+                .withStreet(addressDto.getStreet())
+                .withCity(addressDto.getCity())
+                .withState(addressDto.getState())
+                .withTimezone(addressDto.getTimezone())
+                .withZip(addressDto.getZip())
+                .build();
+    }
+
 }

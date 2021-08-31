@@ -1,10 +1,13 @@
 package com.propify.challenge.properties.web.Dtos;
 
+import javassist.tools.web.BadHttpRequest;
 import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.TimeZone;
 
 @Data
 @AllArgsConstructor
@@ -44,4 +47,13 @@ public class AddressDto {
     public String timezone; // Must be a valid timezone
 
 
+    public boolean validateTimezone()  {
+        String[] validIDs = TimeZone.getAvailableIDs();
+        for (String str : validIDs) {
+            if (str != null && str.equals(timezone)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

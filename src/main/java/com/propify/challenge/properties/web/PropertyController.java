@@ -36,15 +36,19 @@ public class PropertyController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findById(@PathVariable("id") @NotNull @Positive Integer id) {
+    public ResponseEntity<?> findById(@PathVariable("id") @NotNull @Positive Integer id) throws Exception {
         final Property property = service.findById(id);
         return new ResponseEntity<>(property, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> insert(@Valid @RequestBody PropertyDto propertyDto) {
-        service.save(propertyDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        if (propertyDto.getAddress().validateTimezone()) {
+            service.save(propertyDto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
