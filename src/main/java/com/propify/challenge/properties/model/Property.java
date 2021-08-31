@@ -1,18 +1,43 @@
 package com.propify.challenge.properties.model;
 
-public class Property {
+import lombok.*;
 
-    public int id; // must be null for INSERT and not null for UPDATE
+import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Property implements Serializable {
+
+    @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long id; // must be null for INSERT and not null for UPDATE
+
+    @Setter
+    @Getter
     public String createTime;
 
-    public PropertyType type;
+    @Setter
+    @Getter
+    public Type type;
 
+    @Setter
+    @Getter
     public double rentPrice; // must be greater than 0, 2 decimal places
 
+    @Setter
+    @Getter
+    @OneToOne
     public Address address; // must not be null
 
+    @Setter
+    @Getter
     public String emailAddress; // must be a valid email address
 
+    @Setter
+    @Getter
     public String code; // not null, only uppercase letters or numbers, 10 characters
 }

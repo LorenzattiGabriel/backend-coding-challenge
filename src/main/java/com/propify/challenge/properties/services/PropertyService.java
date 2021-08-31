@@ -4,9 +4,12 @@ import com.propify.challenge.properties.repository.PropertyMapper;
 import com.propify.challenge.properties.model.Property;
 import com.propify.challenge.properties.model.PropertyReport;
 import com.propify.challenge.properties.repository.AddressMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class PropertyService {
 
     PropertyMapper propertyMapper;
@@ -14,6 +17,10 @@ public class PropertyService {
     AddressMapper addressMapper;
 
     AlertService alertService;
+
+    @Autowired
+    public PropertyService() {
+    }
 
     public Collection<Property> search(String minRentPrice, String maxRentPrice) {
         return propertyMapper.search(minRentPrice, maxRentPrice);

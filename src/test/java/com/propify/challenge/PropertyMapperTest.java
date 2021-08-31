@@ -4,7 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.propify.challenge.properties.repository.PropertyMapper;
 import com.propify.challenge.properties.model.Property;
-import com.propify.challenge.properties.model.PropertyType;
+import com.propify.challenge.properties.model.Type;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class PropertyMapperTest {
     public void testInsert() {
         var property = new Property();
         property.rentPrice = 3000.99;
-        property.type = PropertyType.MULTI_FAMILY;
+        property.type = Type.MULTI_FAMILY;
 
         propertyMapper.insert(property);
 
